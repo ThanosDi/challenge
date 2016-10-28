@@ -1,0 +1,19 @@
+language: php
+cache:
+  directories:
+    - $HOME/.composer/cache
+php:
+  - 7.0
+install:
+  - composer self-update
+  - composer install --no-interaction --dev --prefer-dist
+before_script:
+  - mkdir -p build/
+  - mkdir -p build/logs
+  - php ./tools/database.php
+  - php -S localhost:8004 -t ./public/&
+script:
+  - composer check-syntax
+  - phpunit
+  - composer testphase
+after_script:
